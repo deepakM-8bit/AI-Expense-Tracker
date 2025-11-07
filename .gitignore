@@ -7,6 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+/Frontend/eslint.config.json
+/Frontend/vite.config.js
 /Backend/node_modules
 /Frontend/node_modules
 dist
@@ -25,7 +27,7 @@ dist-ssr
 *.sw?
 
 # Ignore backend environment file
-/backend/.env 
+/Backend/.env 
 .env
 *.env
 
