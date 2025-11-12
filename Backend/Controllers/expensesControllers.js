@@ -5,7 +5,8 @@ console.log('DB connected successfully!');
 //get all expenses
 export const getExpenses = async (req,res) => {
     try{
-        const result = await pool.query("SELECT * FROM expenses ORDER BY id ASC");
+        const userId = req.user.id;
+        const result = await pool.query("SELECT * FROM expenses WHERE user_id=$1 ORDER BY id ASC",[userId]);
         res.json(result.rows);
     }catch(err){
         console.error("database error:",err.message);
@@ -16,10 +17,11 @@ export const getExpenses = async (req,res) => {
 //add all expenses
 export const addExpenses = async (req,res) => {
     const {title,amount,category,date,recurring,note} = req.body;
+    const userId = req.user.id;
     console.log(req.body);
     try{
-        const result = await pool.query("INSERT INTO expenses (title,amount,category,date,recurring,note) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *",
-            [title,amount,category,date,recurring,note]
+        const result = await pool.query("INSERT INTO expenses (title,amount,category,date,recurring,note,user_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",
+            [title,amount,category,date,recurring,note,userId]
         );
         res.json(result.rows);
     }catch(err){

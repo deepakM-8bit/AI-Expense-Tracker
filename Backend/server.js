@@ -1,4 +1,5 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import expensesRouter from './Routers/expensesRouter.js';
 import authRouter from './Routers/authRouter.js';
