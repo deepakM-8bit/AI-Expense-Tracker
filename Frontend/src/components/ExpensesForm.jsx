@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../context/useAuth.jsx";
 
 export default function ExpenseForm() {
   const { token } = useAuth();
@@ -63,14 +63,31 @@ export default function ExpenseForm() {
           className="p-3 border rounded-xl"
         />
 
-        <input
-          name="category"
-          placeholder="Category"
-          value={form.category}
-          onChange={handleChange}
-          required
-          className="p-3 border rounded-xl"
-        />
+<select
+  name="category"
+  value={form.category}
+  onChange={handleChange}
+  required
+  className="p-3 border rounded-xl"
+>
+  <option value="" disabled>Select Category</option>
+  <option value="Food & Drinks">Food & Drinks</option>
+  <option value="Transportation">Transportation</option>
+  <option value="Shopping">Shopping</option>
+  <option value="Entertainment">Entertainment</option>
+  <option value="Bills & Utilities">Bills & Utilities</option>
+  <option value="Travel">Travel</option>
+  <option value="Health">Health</option>
+  <option value="Groceries">Groceries</option>
+  <option value="Education">Education</option>
+  <option value="Investments">Investments</option>
+  <option value="Rent">Rent</option>
+  <option value="EMIs">EMIs</option>
+  <option value="Subscriptions">Subscriptions</option>
+  <option value="Personal Care">Personal Care</option>
+  <option value="Others">Others</option>
+</select>
+
 
         <input
           name="date"

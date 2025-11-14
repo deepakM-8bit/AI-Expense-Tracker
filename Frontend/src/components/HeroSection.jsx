@@ -23,7 +23,7 @@ export default function HeroSection() {
         Hey {user?.name} 👋
       </h2>
       <p className="text-gray-600 mt-2">
-        Here’s your expense overview for this week.
+        Here's your expense overview for this week.
       </p>
 
       <div className="mt-6 bg-white rounded-2xl shadow p-6 flex flex-col md:flex-row justify-between text-center">
