@@ -10,7 +10,7 @@ export default function HeroSection() {
     if (!token) return;
 
     axios
-      .get("http://localhost:5000/api/expenses/summary", {
+      .get("http://localhost:3000/api/expenses", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then((res) => setSummary(res.data))
