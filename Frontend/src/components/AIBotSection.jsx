@@ -18,7 +18,7 @@ export default function AiInsights() {
       setInsights(res.data.insights);
     } catch (err) {
       console.error(err);
-      setInsights("Failed to generate insights");
+      setInsights("AI is currently busy. Try again in a moment ❤️");
     }
 
     setLoading(false);

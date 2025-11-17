@@ -4,8 +4,6 @@ import axios from "axios";
 
 export default function HeroSection() {
   const { user, token } = useAuth();
-  console.log("AUTH CONTEXT =>", user, token);
-
   const [summary, setSummary] = useState({
     weekTotal: 0,
     monthTotal: 0

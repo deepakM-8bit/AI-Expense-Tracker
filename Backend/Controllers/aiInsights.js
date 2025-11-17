@@ -1,6 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import pool from "../db.js";
 
+
+const models = [
+    "gemini-2.5-pro",
+    "gemini-2.5-flash",
+    "gemini-2.5-flash-lite"
+]
+
 export const aiInsights = async (req, res) => {
   const userId = req.user.id;
 
@@ -39,9 +46,8 @@ export const aiInsights = async (req, res) => {
 
     // Gemini API
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    // ⭐ SHORT, CLEAN, PROFESSIONAL FINTECH PROMPT
+    //  PROMPT
     const prompt = `
 You are an AI financial insights engine. 
 Generate short, clear, bullet-point insights only. No long paragraphs.
@@ -79,11 +85,45 @@ Make everything short, clear, and professional.
 USER DATA:
 ${JSON.stringify(analyticsData, null, 2)}
 `;
+    let responseText=null;
+    let lastError=null;
 
-    const result = await model.generateContent(prompt);
+    for(const modelName of models){
+        try{
+            console.log(`try model: ${modelName}`);
+
+            const model = genAI.getGenerativeModel({model:modelName});
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
+
+            console.log(`success -> model used: ${modelName}`);
+            break;
+        }catch(err){
+            console.log(`failed : ${modelName}`,err.message || err.status);
+
+            //retry only if server error
+            if([429, 500, 502].includes(error.status)){
+                lastError=err;
+                continue;
+            }
+
+            lastError = err;
+            break;
+        }
+    }
+    
+    //all models failed
+    if(!responseText){
+        return res.status(500).json({
+            message:"All ai models are temporarily unavailable. try again shortly.",
+            error: lastError?.message
+        });
+    }
+
 
     res.json({
-      insights: result.response.text(),
+      insights: responseText,
+      model_used: models.find(m=>responseText.includes(m)) || "fallback",
     });
 
   } catch (err) {
