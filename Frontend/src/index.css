@@ -2,50 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- FIX HORIZONTAL SCROLL (safe & global) --- */
+/* --- Global safety & no horizontal scroll --- */
 html, body {
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 *, *::before, *::after {
   box-sizing: inherit;
 }
 
-/* Blob container to prevent horizontal scroll */
-.blob-container {
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* Opening animation (hero section) */
+/* Hero entrance fallback (if JS disabled) */
 .opening-init {
   opacity: 0;
   transform: translateY(10px);
 }
-
 .opening-show {
-  animation: slideDown 1.5s ease-out forwards;
-}
-
-/* Existing animations */
-@keyframes floatSlow {
-  0% { transform: translate(-20%, 0); }
-  50% { transform: translate(-20%, 20px); }
-  100% { transform: translate(-20%, 0); }
-}
-
-@keyframes floatSlow2 {
-  0% { transform: translate(20%, 0); }
-  50% { transform: translate(20%, -20px); }
-  100% { transform: translate(20%, 0); }
+  animation: slideDown .45s ease-out forwards;
 }
 
 @keyframes slideDown {
-  0% { opacity: 0; transform: translateY(-10px); }
+  0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.animate-floatSlow { animation: floatSlow 6s ease-in-out infinite; }
-.animate-floatSlow2 { animation: floatSlow2 7s ease-in-out infinite; }
-.animate-slideDown { animation: slideDown 1.5s ease-out forwards; }
+/* ensure svgs/images don't overflow */
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* subtle utility for small screens */
+@media (max-width: 480px) {
+  .text-4xl { font-size: 1.75rem; }
+}

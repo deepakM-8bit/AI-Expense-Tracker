@@ -3,34 +3,26 @@ import { useEffect, useState } from "react";
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [animate, setAnimate] = useState(false);
 
-  // THEME HANDLER
+  // Theme system
   const [theme, setTheme] = useState(() => {
-    if (typeof window === "undefined") return "light";
-    const stored = localStorage.getItem("theme");
-    if (stored) return stored;
-    return window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    try {
+      if (typeof window === "undefined") return "light";
+      const saved = localStorage.getItem("theme");
+      if (saved) return saved;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    } catch {
+      return "light";
+    }
   });
 
-  // Inject theme to HTML
   useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Play opening animation
-  useEffect(() => {
-    const t = requestAnimationFrame(() => setAnimate(true));
-    return () => cancelAnimationFrame(t);
-  }, []);
-
-  // Close mobile menu on resize
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setMobileMenuOpen(false);
@@ -39,87 +31,61 @@ export default function LandingPage() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const toggleTheme = () =>
+  const toggleTheme = () => {
     setTheme((t) => (t === "dark" ? "light" : "dark"));
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-
-      {/* FLOATING KEYFRAMES */}
-      <style>{`
-        @keyframes floatSine {
-          0% { transform: translateY(0) translateX(0) rotate(0deg); }
-          50% { transform: translateY(-18px) translateX(-6px) rotate(6deg); }
-          100% { transform: translateY(0) translateX(0) rotate(0deg); }
-        }
-      `}</style>
-
+      
       {/* NAVBAR */}
-      <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 w-[92%] md:w-[94%] max-w-7xl z-30">
-        <div className="backdrop-blur-md bg-white/60 dark:bg-black/40 border dark:border-gray-700 border-gray-200 rounded-2xl shadow-lg px-4 md:px-6 py-3 flex items-center justify-between transition-all duration-300">
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] md:w-[94%] max-w-7xl z-30">
+        <div className="backdrop-blur-md bg-white/70 dark:bg-black/50 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg px-4 md:px-6 py-3 flex items-center justify-between">
+
           <div className="flex items-center gap-4">
-            <h1 className="text-lg md:text-2xl font-bold tracking-tight pr-2">
-              AI Expense Tracker
-            </h1>
-            <span className="hidden md:inline-block text-sm text-gray-500 dark:text-gray-300">
-              Smarter spending with AI
-            </span>
+            <h1 className="text-lg md:text-2xl font-bold tracking-tight">AI Expense Tracker</h1>
+            <span className="hidden md:inline text-sm text-gray-500 dark:text-gray-300">Smarter spending with AI</span>
           </div>
 
-          {/* Desktop */}
+          {/* Desktop buttons */}
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={toggleTheme}
+              aria-label="Toggle Theme"
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
               {theme === "dark" ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5"
-                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5"
-                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                  <circle cx="12" cy="12" r="3" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2"/>
                 </svg>
               )}
             </button>
 
-            <Link
-              to="/login"
-              className="px-3 py-2 text-sm md:text-base font-medium text-blue-600 dark:text-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-            >
+            <Link to="/login" className="px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
               Login
             </Link>
-            <Link
-              to="/signup"
-              className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm md:text-base shadow"
-            >
+
+            <Link to="/signup" className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow">
               Sign Up
             </Link>
           </div>
 
-          {/* Mobile */}
+          {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-            >
+            <button onClick={toggleTheme} className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
               {theme === "dark" ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5"
-                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5"
-                  viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round"
-                    d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                  <circle cx="12" cy="12" r="3" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4"/>
                 </svg>
               )}
             </button>
@@ -128,86 +94,27 @@ export default function LandingPage() {
               onClick={() => setMobileMenuOpen((s) => !s)}
               className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
-              <svg xmlns="http://www.w3.org/2000/svg"
-                className={`w-6 h-6 transform transition-transform ${mobileMenuOpen ? "rotate-90" : "rotate-0"}`}
-                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                <path strokeLinecap="round" strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16" />
+              <svg xmlns="http://www.w3.org/2000/svg" className={`w-6 h-6 ${mobileMenuOpen ? "rotate-90" : ""}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div
-          className={`md:hidden mt-2 w-full px-4 transition-all origin-top ease-out duration-300 ${
-            mobileMenuOpen
-              ? "opacity-100 translate-y-0 scale-y-100"
-              : "opacity-0 -translate-y-2 scale-y-95 pointer-events-none"
-          }`}
-        >
-          <div className="backdrop-blur-md bg-white/70 dark:bg-black/50 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-lg">
-            <Link
-              to="/login"
-              className="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="block mt-2 px-3 py-2 bg-blue-600 text-white rounded-md text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign Up
-            </Link>
+        {/* MOBILE MENU */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-2 w-full px-4">
+            <div className="backdrop-blur-md bg-white/80 dark:bg-black/60 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-lg">
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">Login</Link>
+              <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="block mt-2 px-3 py-2 bg-blue-600 text-white rounded-md text-center">Sign Up</Link>
+            </div>
           </div>
-        </div>
+        )}
       </nav>
 
-      {/* FLOATING BLOBS */}
-      <div aria-hidden className="pointer-events-none blob-container">
-        <div style={{ zIndex: 0 }} className="absolute inset-0 -top-6 flex justify-center">
-          <div className="relative w-full max-w-7xl mx-auto">
-            {/* left blob */}
-            <div
-              className="absolute -left-40 -top-28 w-72 h-72 rounded-full blur-3xl opacity-70 transform-gpu"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(79,70,229,0.18), rgba(99,102,241,0.08))",
-                animation: "floatSine 6s ease-in-out infinite",
-              }}
-            />
-            {/* right blob */}
-            <div
-              className="absolute -right-28 -top-10 w-56 h-56 rounded-full blur-2xl opacity-70 transform-gpu"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(16,185,129,0.12), rgba(34,211,238,0.06))",
-                animation: "floatSine 7s ease-in-out infinite",
-              }}
-            />
-
-            {/* center soft gradient */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 -top-8 w-[60%] h-48 rounded-3xl blur-2xl opacity-30"
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(59,130,246,0.08), rgba(99,102,241,0.06))",
-                animation: "floatSine 9s ease-in-out infinite",
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* HERO SECTION */}
-      <main className="pt-36 pb-12 px-6 md:px-10 max-w-7xl mx-auto relative z-10">
-        <section
-          className={`flex flex-col items-center text-center opening-init ${
-            animate ? "opening-show" : ""
-          }`}
-        >
+      {/* HERO */}
+      <main className="pt-36 pb-12 px-6 md:px-10 max-w-7xl mx-auto">
+        <section className="flex flex-col items-center text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight max-w-4xl mb-3">
             Smarter Spending With{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
@@ -215,24 +122,16 @@ export default function LandingPage() {
             </span>
           </h2>
 
-          <p className="animate-slideDown mt-5 text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-            Track daily expenses, visualize patterns, get on-demand AI
-            suggestions, and manage your money effortlessly — all in a single
-            beautiful dashboard.
+          <p className="mt-5 text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+            Track daily expenses, visualize patterns, get on-demand AI suggestions, and manage your money effortlessly — all in a single beautiful dashboard.
           </p>
 
-          <div className="animate-slideDown mt-8 flex gap-4">
-            <Link
-              to="/login"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-medium shadow-lg transform transition hover:-translate-y-0.5"
-            >
+          <div className="mt-8 flex gap-4">
+            <Link to="/login" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-medium shadow-lg">
               Get Started
             </Link>
 
-            <a
-              href="#features"
-              className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-2xl text-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-            >
+            <a href="#features" className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-2xl text-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
               Learn More
             </a>
           </div>
@@ -240,81 +139,38 @@ export default function LandingPage() {
       </main>
 
       {/* FEATURES */}
-      <section
-        id="features"
-        className="px-6 md:px-10 pb-24 max-w-7xl mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        <div className="animate-slideDown relative bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
-          <div className="mb-3 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-400 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22"
-              />
+      <section id="features" className="px-6 md:px-10 pb-24 max-w-7xl mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition">
+          <div className="mb-3 w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-400 text-white flex items-center justify-center">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="M2.25 18 9 11.25l4.3 4.3a11.95 11.95 0 0 1 5.8-5.5l2.7-1.2"/>
             </svg>
           </div>
           <h3 className="text-xl font-semibold mb-2">Smart Analytics</h3>
-          <p className="text-gray-600 dark:text-gray-300">
-            Visualize monthly, weekly, and category-wise expenses with clear
-            charts.
-          </p>
+          <p className="text-gray-600 dark:text-gray-300">Visualize monthly, weekly, and category-wise expenses with clear charts.</p>
         </div>
 
-        <div className="animate-slideDown relative bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
-          <div className="mb-3 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-green-400 to-teal-400 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 "
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189"
-              />
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition">
+          <div className="mb-3 w-12 h-12 rounded-lg bg-gradient-to-br from-green-400 to-teal-400 text-white flex items-center justify-center">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189"/>
             </svg>
           </div>
           <h3 className="text-xl font-semibold mb-2">AI Insights</h3>
-          <p className="text-gray-600 dark:text-gray-300">
-            Personalized suggestions to reduce unnecessary spending and optimize
-            your budget.
-          </p>
+          <p className="text-gray-600 dark:text-gray-300">Personalized suggestions to reduce unnecessary spending and optimize your budget.</p>
         </div>
 
-        <div className="relative bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1">
-          <div className="mb-3 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
-              />
+        <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-md hover:shadow-lg transition">
+          <div className="mb-3 w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 text-white flex items-center justify-center">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
             </svg>
           </div>
           <h3 className="text-xl font-semibold mb-2">Simple & Fast</h3>
-          <p className="text-gray-600 dark:text-gray-300">
-            Add, edit, and track expenses in seconds with a modern UI built for
-            speed.
-          </p>
+          <p className="text-gray-600 dark:text-gray-300">Add, edit, and track expenses in seconds with a modern UI built for speed.</p>
         </div>
+
       </section>
 
       {/* FOOTER */}
