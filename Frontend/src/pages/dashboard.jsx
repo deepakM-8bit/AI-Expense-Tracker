@@ -4,8 +4,7 @@ import ExpenseForm from "../components/ExpenseForm.jsx";
 import ExpenseList from "../components/ExpenseList.jsx";
 import AnalyticsSection from "../components/AnalyticsSection.jsx";
 import AIBotSection from "../components/AIBotSection.jsx";
-import { ThemeContext } from "../context/ThemeContext.jsx";
-import { useContext } from "react";
+import { FooterSection } from "../components/Footer.jsx";
 import { useAuth } from "../context/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -34,6 +33,7 @@ export default function Dashboard() {
 
         <AIBotSection />
 
+        <FooterSection />
       </div>
     </div>
   );

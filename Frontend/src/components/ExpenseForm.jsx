@@ -38,19 +38,35 @@ export default function ExpenseForm() {
     window.dispatchEvent(new Event("expenseUpdated"));
   };
 
+  const baseField =
+    "p-3 rounded-xl bg-white/40 dark:bg-gray-800/40 border border-gray-300/40 " +
+    "dark:border-gray-700/40 text-gray-900 dark:text-gray-100 " +
+    "focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 " +
+    "focus:outline-none transition";
+
   return (
-    <form className="bg-white p-6 rounded-2xl shadow" onSubmit={handleSubmit}>
-      <h3 className="text-xl font-semibold mb-4">Add New Expense</h3>
+    <form
+      onSubmit={handleSubmit}
+      className="
+        p-6 rounded-2xl shadow-xl mt-8
+        bg-white/30 dark:bg-gray-900/30
+        backdrop-blur-xl border border-white/40 dark:border-gray-700/40
+        transition-all duration-300
+      "
+    >
+      <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+        Add New Expense
+      </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
+
         <input
           name="title"
           placeholder="Title"
           value={form.title}
           onChange={handleChange}
           required
-          className="p-3 border rounded-xl"
+          className={baseField}
         />
 
         <input
@@ -60,34 +76,33 @@ export default function ExpenseForm() {
           value={form.amount}
           onChange={handleChange}
           required
-          className="p-3 border rounded-xl"
+          className={baseField}
         />
 
-<select
-  name="category"
-  value={form.category}
-  onChange={handleChange}
-  required
-  className="p-3 border rounded-xl"
->
-  <option value="" disabled>Select Category</option>
-  <option value="Food & Drinks">Food & Drinks</option>
-  <option value="Transportation">Transportation</option>
-  <option value="Shopping">Shopping</option>
-  <option value="Entertainment">Entertainment</option>
-  <option value="Bills & Utilities">Bills & Utilities</option>
-  <option value="Travel">Travel</option>
-  <option value="Health">Health</option>
-  <option value="Groceries">Groceries</option>
-  <option value="Education">Education</option>
-  <option value="Investments">Investments</option>
-  <option value="Rent">Rent</option>
-  <option value="EMIs">EMIs</option>
-  <option value="Subscriptions">Subscriptions</option>
-  <option value="Personal Care">Personal Care</option>
-  <option value="Others">Others</option>
-</select>
-
+        <select
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          required
+          className={baseField}
+        >
+          <option value="" disabled>Select Category</option>
+          <option value="Food & Drinks">Food & Drinks</option>
+          <option value="Transportation">Transportation</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Bills & Utilities">Bills & Utilities</option>
+          <option value="Travel">Travel</option>
+          <option value="Health">Health</option>
+          <option value="Groceries">Groceries</option>
+          <option value="Education">Education</option>
+          <option value="Investments">Investments</option>
+          <option value="Rent">Rent</option>
+          <option value="EMIs">EMIs</option>
+          <option value="Subscriptions">Subscriptions</option>
+          <option value="Personal Care">Personal Care</option>
+          <option value="Others">Others</option>
+        </select>
 
         <input
           name="date"
@@ -95,7 +110,7 @@ export default function ExpenseForm() {
           value={form.date}
           onChange={handleChange}
           required
-          className="p-3 border rounded-xl"
+          className={baseField}
         />
 
         <textarea
@@ -103,14 +118,14 @@ export default function ExpenseForm() {
           placeholder="Add a note (optional)"
           value={form.note}
           onChange={handleChange}
-          className="p-3 border rounded-xl md:col-span-2"
+          className={`${baseField} md:col-span-2`}
         ></textarea>
 
         <select
           name="recurring"
           value={form.recurring}
           onChange={handleChange}
-          className="p-3 border rounded-xl"
+          className={baseField}
         >
           <option value="none">Not Recurring</option>
           <option value="daily">Daily</option>
@@ -120,7 +135,16 @@ export default function ExpenseForm() {
 
       </div>
 
-      <button className="mt-4 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition">
+      {/* Clean minimalist button */}
+      <button
+        type="submit"
+        className="
+          mt-6 w-full py-3 rounded-xl font-medium
+          bg-blue-600 hover:bg-blue-700
+          dark:bg-blue-700 dark:hover:bg-blue-800
+          text-white transition
+        "
+      >
         Add Expense
       </button>
     </form>
