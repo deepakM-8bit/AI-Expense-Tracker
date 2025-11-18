@@ -12,6 +12,7 @@ export default function AppRouter(){
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/analytics" element={<Dashboard />} />
       </Routes>
     </Router>
     );
