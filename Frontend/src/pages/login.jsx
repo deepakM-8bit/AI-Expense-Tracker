@@ -3,10 +3,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth.jsx";
 import Navbar from "../components/Navbar.jsx";
 import axios from "axios";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { theme } = useContext(ThemeContext);
+
 
   const [form, setForm] = useState({
     email: "",
@@ -42,7 +46,7 @@ export default function Login() {
     <>
     <Navbar showUserActions={false} />
     
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
 
         <h2 className="text-3xl font-bold text-center mb-6">

@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.jsx";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const [form, setForm] = useState({
     name: "",
@@ -48,7 +52,7 @@ export default function Signup() {
     <>
     <Navbar showUserActions={false} />
     
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 ">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 ">
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg mt-10">
         
         <h2 className="text-3xl font-bold text-center mb-8">

@@ -4,6 +4,8 @@ import ExpenseForm from "../components/ExpenseForm.jsx";
 import ExpenseList from "../components/ExpenseList.jsx";
 import AnalyticsSection from "../components/AnalyticsSection.jsx";
 import AIBotSection from "../components/AIBotSection.jsx";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useContext } from "react";
 import { useAuth } from "../context/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -17,7 +19,7 @@ export default function Dashboard() {
   }, [token,navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Navbar />
 
       <div className="pt-28 max-w-7xl mx-auto px-4 pb-20 space-y-14">

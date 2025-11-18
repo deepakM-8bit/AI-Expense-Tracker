@@ -1,27 +1,13 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext.jsx";
+import { useContext } from "react";
+
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
-  // Theme system
-  const [theme, setTheme] = useState(() => {
-    try {
-      if (typeof window === "undefined") return "light";
-      const saved = localStorage.getItem("theme");
-      if (saved) return saved;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    } catch {
-      return "light";
-    }
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     const onResize = () => {
@@ -31,9 +17,7 @@ export default function LandingPage() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme((t) => (t === "dark" ? "light" : "dark"));
-  };
+
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
