@@ -27,7 +27,7 @@ export const getAnalytics = async(req,res) => {
             TO_CHAR("date", 'Day') AS day,
             SUM(amount) AS total
             FROM expenses WHERE user_id=$1
-            GROUP BY date, day
+            GROUP BY "date"::date, TO_CHAR("date", 'Day')
             ORDER BY date ASC`,[userId]
         );
 
@@ -70,7 +70,7 @@ export const getAnalytics = async(req,res) => {
        ORDER BY year ASC, total DESC`,
       [userId]
     );
-
+    
         return res.json({
             categoryTotals:categoryQuery.rows,
             monthlyTotals: monthQuery.rows,

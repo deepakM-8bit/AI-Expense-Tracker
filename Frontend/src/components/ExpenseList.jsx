@@ -189,8 +189,7 @@ export default function ExpenseList() {
             px-4 py-2 rounded-lg text-white text-sm
             bg-green-600 hover:bg-green-700
             dark:bg-green-700 dark:hover:bg-green-800
-            transition
-          "
+            transition  "
         >
           Export CSV
         </button>
