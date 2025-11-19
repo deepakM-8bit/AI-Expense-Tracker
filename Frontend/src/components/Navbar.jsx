@@ -14,7 +14,8 @@ export default function Navbar({ showUserActions = true }) {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <nav className="fixed top-0 w-full bg-white dark:bg-gray-900 shadow-md py-4 px-6 md:px-20 flex justify-between items-center z-50 transition-colors duration-300">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%]  shadow-md py-4 px-8 md:px-15 flex justify-between items-center z-50 transition-colors duration-300
+    backdrop-blur-md bg-white/70 dark:bg-black/50 border border-gray-200 dark:border-gray-700 rounded-2xl">
 
       {/* App Title */}
       <h1 className="text-xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 transition-colors">
@@ -114,6 +115,13 @@ export default function Navbar({ showUserActions = true }) {
           >
             {user?.name || "Profile"}
           </button>
+
+            <button
+              onClick={() => navigate("/dashboard/analytics")}
+               className="px-3 py-2 font-medium text-md bg-gray-700/20 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-700/40 dark:text-gray-50 dark:bg-gray-300/20 transition"
+            >
+               Analytics
+            </button>
 
           <button
             onClick={() => {

@@ -270,7 +270,7 @@ export default function AnalyticsSection() {
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="border border-gray-300 dark:border-gray-600 bg-white/40 dark:bg-gray-700/40 text-gray-800 dark:text-gray-100 p-2 rounded-lg"
+            className="border border-gray-300 dark:border-gray-600 bg-white/40 dark:bg-gray-700/40 text-gray-800 dark:text-gray-100 p-1.5 rounded-lg"
           >
             <option value="all">All Time</option>
             <option value="month">Monthly</option>
@@ -312,7 +312,7 @@ export default function AnalyticsSection() {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
 
         {/* PIE CHART */}
         <div className="bg-white/20 dark:bg-gray-800/40 backdrop-blur-md border border-white/30 dark:border-gray-700/40 p-4 rounded-xl">

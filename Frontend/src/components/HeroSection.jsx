@@ -62,7 +62,8 @@ export default function HeroSection() {
       </p>
 
       {/* Summary Card */}
-      <div className="mt-6 bg-white/30 dark:bg-gray-800/30 backdrop-blur-xl border border-gray-200 dark:border-gray-700/30 rounded-2xl shadow backdrop-blur-xl p-6 flex flex-col md:flex-row justify-between text-center gap-6 transition-colors">
+      <div className="mt-6 bg-white/30 dark:bg-gray-800/30 backdrop-blur-xl border border-gray-200 dark:border-gray-700/30 
+      rounded-2xl shadow backdrop-blur-xl p-6 flex flex-col md:flex-row justify-between text-center gap-6 transition-colors">
         
         {/* Weekly */}
         <div className="flex-1">

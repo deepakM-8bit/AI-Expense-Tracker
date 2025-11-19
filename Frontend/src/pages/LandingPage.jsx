@@ -23,7 +23,7 @@ export default function LandingPage() {
     <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
       
       {/* NAVBAR */}
-      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] md:w-[94%] max-w-7xl z-30">
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:w-[94%] max-w-7xl z-30">
         <div className="backdrop-blur-md bg-white/70 dark:bg-black/50 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg px-4 md:px-6 py-3 flex items-center justify-between">
 
           <div className="flex items-center gap-4">
@@ -158,7 +158,7 @@ export default function LandingPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-white dark:bg-black/40 shadow-inner py-12 mt-12">
+      <footer className=" border-t border-gray-700/60 bg-white dark:bg-black/40 shadow-inner py-12 mt-12">
         <div className="max-w-7xl mx-auto text-center text-gray-600 dark:text-gray-300 px-6 md:px-10">
           <div className="flex flex-col md:flex-row md:justify-between items-center gap-4">
             <div>

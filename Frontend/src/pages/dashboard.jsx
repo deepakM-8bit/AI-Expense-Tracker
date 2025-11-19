@@ -6,12 +6,23 @@ import AnalyticsSection from "../components/AnalyticsSection.jsx";
 import AIBotSection from "../components/AIBotSection.jsx";
 import { FooterSection } from "../components/Footer.jsx";
 import { useAuth } from "../context/useAuth.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function Dashboard() {
   const { token } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const showAnalytics = location.pathname === "/dashboard/analytics";
+
+  useEffect(() => {
+  const onKey = (e) => {
+    if (e.key === "Escape" && showAnalytics) navigate("/dashboard");
+  };
+  window.addEventListener("keydown", onKey);
+  return () => window.removeEventListener("keydown", onKey);
+  }, [showAnalytics, navigate]);
 
   useEffect(() => {
     if (!token) navigate("/login");
@@ -35,6 +46,7 @@ export default function Dashboard() {
        {/* Slide-over / Drawer for Analytics */}
       {showAnalytics && (
         <>
+          
           {/* backdrop */}
           <div
             onClick={() => navigate("/dashboard")}
@@ -45,7 +57,7 @@ export default function Dashboard() {
           <aside
             className="
               fixed top-0 right-0 h-full z-50
-              w-full sm:w-[92%] md:w-3/4 lg:w-2/3 xl:w-3/5
+              w-full sm:w-[80%] md:w-3/4 lg:w-4/5 xl:w-5/7
               bg-white/30 dark:bg-gray-900/30
               backdrop-blur-xl border-l border-white/20 dark:border-gray-700/30
               p-6 overflow-auto
@@ -54,10 +66,11 @@ export default function Dashboard() {
             role="dialog"
             aria-modal="true"
           >
+            
             {/* top bar */}
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
                   Analytics & AI Insights
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -68,7 +81,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => navigate("/dashboard")}
-                  className="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
+                  className="px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-700 transition"
                   aria-label="Close analytics panel"
                 >
                   Close
@@ -77,7 +90,7 @@ export default function Dashboard() {
             </div>
 
             {/* content grid: analytics + ai */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
               <AnalyticsSection />
               <AIBotSection />
             </div>
